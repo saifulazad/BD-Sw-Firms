@@ -26,6 +26,7 @@ import com.danielkim.soundrecorder.fragments.PlaybackFragment;
 import com.danielkim.soundrecorder.listeners.OnDatabaseChangedListener;
 
 import java.io.File;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
@@ -38,20 +39,24 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
 
     private static final String LOG_TAG = "FileViewerAdapter";
 
-//    private DBHelper mDatabase;
+   private DBHelper mDatabase;
 
     RecordingItem item;
     Context mContext;
     LinearLayoutManager llm;
-
+    List<RecordingItem> recordingItems;
     public FileViewerAdapter(Context context, LinearLayoutManager linearLayoutManager) {
         super();
         mContext = context;
-//        mDatabase = new DBHelper(mContext);
-//        mDatabase.setOnDatabaseChangedListener(this);
+        recordingItems = new ArrayList<>();
+       mDatabase = new DBHelper(mContext);
+       mDatabase.setOnDatabaseChangedListener(this);
         llm = linearLayoutManager;
     }
-
+    public void setList(List<RecordingItem> recordingItems){
+        this.recordingItems = recordingItems;
+        notifyDataSetChanged();
+    }
     @Override
     public void onBindViewHolder(final RecordingsViewHolder holder, int position) {
 
@@ -163,12 +168,11 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
 
     @Override
     public int getItemCount() {
-        return 1;
+        return this.recordingItems.size();
     }
 
     public RecordingItem getItem(int position) {
-        return FakeList.getSomeFakeData().get(position);
-//        return new RecordingItem();
+        return recordingItems.get(position);
     }
 
     @Override
@@ -200,7 +204,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
             Toast.LENGTH_SHORT
         ).show();
 
-//        mDatabase.removeItemWithId(getItem(position).getId());
+       mDatabase.removeItemWithId(getItem(position).getId());
         notifyItemRemoved(position);
     }
 
@@ -226,7 +230,7 @@ public class FileViewerAdapter extends RecyclerView.Adapter<FileViewerAdapter.Re
             //file name is unique, rename file
             File oldFilePath = new File(getItem(position).getFilePath());
             oldFilePath.renameTo(f);
-//            mDatabase.renameItem(getItem(position), name, mFilePath);
+           mDatabase.renameItem(getItem(position), name, mFilePath);
             notifyItemChanged(position);
         }
     }

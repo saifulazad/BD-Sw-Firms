@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FakeList {
 
-    static List<RecordingItem> getSomeFakeData(){
+    static public List<RecordingItem> getSomeFakeData(){
 
         List<RecordingItem> recordingItemList = new ArrayList<>(1);
         RecordingItem r1 = new

@@ -12,7 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.danielkim.soundrecorder.R;
+import com.danielkim.soundrecorder.adapters.FakeList;
 import com.danielkim.soundrecorder.adapters.FileViewerAdapter;
+import com.danielkim.soundrecorder.model.User;
+import com.danielkim.soundrecorder.restclient.RestClient;
+import com.danielkim.soundrecorder.restclient.service.ParseUserService;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * Created by Daniel on 12/23/2014.
@@ -20,7 +29,7 @@ import com.danielkim.soundrecorder.adapters.FileViewerAdapter;
 public class FileViewerFragment extends Fragment{
     private static final String ARG_POSITION = "position";
     private static final String LOG_TAG = "FileViewerFragment";
-
+    ParseUserService service;
     private int position;
     private FileViewerAdapter mFileViewerAdapter;
 
@@ -37,7 +46,35 @@ public class FileViewerFragment extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt(ARG_POSITION);
+        callForData();
 //        observer.startWatching();
+    }
+
+    private void callForData(){
+        Retrofit mRestAdapter =  RestClient.getInstance().getRestAdapter();
+
+        service = mRestAdapter.create(ParseUserService.class);
+
+        service.getAnswers().enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                if(response.isSuccessful()) {
+                    Log.d("AAAAAAAAAAAAa", response.body().getItems().toString());
+                    Log.d("MainActivity", "posts loaded from API");
+                    mFileViewerAdapter.setList(FakeList.getSomeFakeData());
+                }else {
+                    int statusCode  = response.code();
+                    // handle request errors depending on status code
+                }
+            }
+
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.d("MainActivity", "error loading from API");
+
+            }
+        });
     }
 
     @Override
