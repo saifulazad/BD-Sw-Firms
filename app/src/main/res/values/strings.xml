@@ -5,4 +5,8 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="no_company_found">No Company Found</string>
+    <string name="retry">Retry</string>
+    <string name="unknown_error">Unknown Error</string>
+
 </resources>

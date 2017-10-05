@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import com.jokerslab.android.bd_sw_firms.databinding.FragmentCompanyListBinding;
 import com.jokerslab.android.bd_sw_firms.model.Company;
 import com.jokerslab.android.bd_sw_firms.model.Resource;
+import com.jokerslab.android.bd_sw_firms.util.AutoClearedValue;
 import com.jokerslab.android.bd_sw_firms.viewmodel.CompanyViewModel;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class CompanyListFragment extends BaseFragment {
     public static final String TAG = CompanyListFragment.class.getSimpleName();
 
 
-    private FragmentCompanyListBinding binding;
+    private AutoClearedValue<FragmentCompanyListBinding> binding;
 
     private CompanyListAdapter adapter;
 
@@ -50,20 +51,24 @@ public class CompanyListFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_company_list, container, false);
-        binding.companyListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
-        binding.companyListRecyclerView.setAdapter(adapter);
-        return binding.getRoot();
+        FragmentCompanyListBinding companyListBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_company_list, container, false);
+        binding = new AutoClearedValue<>(this, companyListBinding);
+        return companyListBinding.getRoot();
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
+        binding.get().companyListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
+        binding.get().companyListRecyclerView.setAdapter(adapter);
         CompanyViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(CompanyViewModel.class);
         viewModel.getCompanies().observe(this, result -> {
+            binding.get().setCompanyListResource(result);
+            binding.get().setResultCount((result == null || result.data == null) ? 0 : result.data.size());
             setData(result);
+            binding.get().executePendingBindings();
         });
+
     }
 
     public void setData(Resource<List<Company>> companies) {

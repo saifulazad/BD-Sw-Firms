@@ -2,6 +2,7 @@ package com.jokerslab.android.bd_sw_firms.repository;
 
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Transformations;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -10,6 +11,7 @@ import com.jokerslab.android.bd_sw_firms.model.Company;
 import com.jokerslab.android.bd_sw_firms.model.Resource;
 import com.jokerslab.android.bd_sw_firms.network.ApiResponse;
 import com.jokerslab.android.bd_sw_firms.network.WebService;
+import com.jokerslab.android.bd_sw_firms.util.AbsentLiveData;
 import com.jokerslab.android.bd_sw_firms.util.AppExecutors;
 
 import java.util.List;
@@ -54,7 +56,12 @@ public class CompanyRepository {
             @NonNull
             @Override
             protected LiveData<List<Company>> loadFromDB() {
-                return companyDao.getAll();
+                LiveData<List<Company>> list = companyDao.getAll();
+                if (list == null || list.getValue() == null || list.getValue().isEmpty()) {
+                    return AbsentLiveData.create();
+                } else {
+                    return list;
+                }
             }
 
             @NonNull
@@ -62,6 +69,7 @@ public class CompanyRepository {
             protected LiveData<ApiResponse<List<Company>>> createCall() {
                 return webService.getCompanies();
             }
+
         }.asLiveData();
     }
 }

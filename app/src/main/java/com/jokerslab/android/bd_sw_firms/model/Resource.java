@@ -10,7 +10,7 @@ import static com.jokerslab.android.bd_sw_firms.model.Status.*;
 
 public class Resource<T> {
 
-    public final @Status int status;
+    public final int status;
 
     @Nullable
     public final String message;
@@ -18,7 +18,7 @@ public class Resource<T> {
     @Nullable
     public final T data;
 
-    public Resource(@Status int status, T data, String message) {
+    public Resource(int status, T data, String message) {
         this.status = status;
         this.message = message;
         this.data = data;

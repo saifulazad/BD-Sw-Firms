@@ -1,7 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/companyListRecyclerView"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="com.jokerslab.android.bd_sw_firms.model.Resource" />
+        <import type="com.jokerslab.android.bd_sw_firms.model.Status"/>
+
+        <variable
+            name="companyListResource"
+            type="Resource" />
+
+        <variable
+            name="resultCount"
+            type="int" />
+
+        <variable name="callback" type="com.jokerslab.android.bd_sw_firms.ui.common.RetryCallback"/>
+
+    </data>
+
+    <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/companyListRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="@string/no_company_found"
+            android:id="@+id/no_results_text"
+            app:visibleGone="@{companyListResource.status == Status.SUCCESS &amp;&amp; resultCount == 0}"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" tools:layout_editor_absoluteY="247dp"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+        <include layout="@layout/loading_state"
+            app:resource="@{companyListResource}"
+            app:callback="@{() -> callback.retry()}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="8dp" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </android.support.constraint.ConstraintLayout>
 </layout>
