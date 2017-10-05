@@ -2,7 +2,6 @@ package com.jokerslab.android.bd_sw_firms;
 
 import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.provider.ContactsContract;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -45,7 +44,8 @@ public class CompanyListAdapter extends RecyclerView.Adapter<BaseViewHolder<Comp
 
     public void setData(List<Company> data) {
         getData().clear();
-        getData().addAll(data);
+        if (data != null && !data.isEmpty())
+            getData().addAll(data);
         notifyDataSetChanged();
     }
 

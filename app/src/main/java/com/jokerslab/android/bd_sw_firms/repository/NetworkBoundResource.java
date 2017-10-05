@@ -18,7 +18,7 @@ import com.jokerslab.android.bd_sw_firms.util.AppExecutors;
 public abstract class NetworkBoundResource<ResultType, RequestType> {
     private final AppExecutors appExecutors;
 
-    private final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<Resource<ResultType>>();
+    private final MediatorLiveData<Resource<ResultType>> result = new MediatorLiveData<>();
 
 
     @MainThread

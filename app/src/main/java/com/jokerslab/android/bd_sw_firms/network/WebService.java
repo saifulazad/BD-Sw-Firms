@@ -1,11 +1,12 @@
 package com.jokerslab.android.bd_sw_firms.network;
 
 
+import android.arch.lifecycle.LiveData;
+
 import com.jokerslab.android.bd_sw_firms.model.Company;
 
 import java.util.List;
 
-import retrofit2.Call;
 import retrofit2.http.GET;
 
 /**
@@ -15,5 +16,5 @@ import retrofit2.http.GET;
 public interface WebService {
 
     @GET("jobs")
-    Call<List<Company>> getCompanies();
+    LiveData<ApiResponse<List<Company>>> getCompanies();
 }

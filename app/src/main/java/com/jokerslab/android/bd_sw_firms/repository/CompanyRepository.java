@@ -2,19 +2,19 @@ package com.jokerslab.android.bd_sw_firms.repository;
 
 
 import android.arch.lifecycle.LiveData;
-import android.util.Log;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.jokerslab.android.bd_sw_firms.db.CompanyDao;
 import com.jokerslab.android.bd_sw_firms.model.Company;
+import com.jokerslab.android.bd_sw_firms.model.Resource;
+import com.jokerslab.android.bd_sw_firms.network.ApiResponse;
 import com.jokerslab.android.bd_sw_firms.network.WebService;
+import com.jokerslab.android.bd_sw_firms.util.AppExecutors;
 
 import java.util.List;
 
 import javax.inject.Inject;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by sayem on 9/26/2017.
@@ -24,32 +24,44 @@ public class CompanyRepository {
 
     private static final String TAG = CompanyRepository.class.getSimpleName();
 
-    WebService webService;
-    CompanyDao companyDao;
+    private final WebService webService;
+    private final CompanyDao companyDao;
+    private final AppExecutors appExecutors;
+
 
     @Inject
-    public CompanyRepository(WebService webService, CompanyDao companyDao) {
+    public CompanyRepository(WebService webService, CompanyDao companyDao, AppExecutors appExecutors) {
         this.webService = webService;
         this.companyDao = companyDao;
+        this.appExecutors = appExecutors;
     }
 
-    public LiveData<List<Company>> loadCompanyList() {
-        LiveData<List<Company>> data = companyDao.getAll();
-        if (data.getValue() == null || data.getValue().size() == 0) {
-            webService.getCompanies().enqueue(new Callback<List<Company>>() {
-                @Override
-                public void onResponse(Call<List<Company>> call, Response<List<Company>> response) {
-                    if (response.isSuccessful()) {
-                        companyDao.insert(response.body());
-                    }
-                }
+    public LiveData<Resource<List<Company>>> loadCompanyList() {
 
-                @Override
-                public void onFailure(Call<List<Company>> call, Throwable t) {
-                    Log.e(TAG, t.toString());
-                }
-            });
-        }
-        return data;
+        return new NetworkBoundResource<List<Company>, List<Company>>(appExecutors) {
+
+
+            @Override
+            protected void saveCallResult(@NonNull List<Company> item) {
+                companyDao.insert(item);
+            }
+
+            @Override
+            protected boolean shouldFetch(@Nullable List<Company> data) {
+                return data == null || data.isEmpty();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<List<Company>> loadFromDB() {
+                return companyDao.getAll();
+            }
+
+            @NonNull
+            @Override
+            protected LiveData<ApiResponse<List<Company>>> createCall() {
+                return webService.getCompanies();
+            }
+        }.asLiveData();
     }
 }
