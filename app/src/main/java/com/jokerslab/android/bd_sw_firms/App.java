@@ -3,8 +3,7 @@ package com.jokerslab.android.bd_sw_firms;
 import android.app.Activity;
 import android.app.Application;
 
-
-import com.jokerslab.android.bd_sw_firms.di.DaggerAppComponent;
+import com.jokerslab.android.bd_sw_firms.di.AppInjector;
 
 import javax.inject.Inject;
 
@@ -24,7 +23,7 @@ public class App extends Application implements HasActivityInjector{
     public void onCreate() {
         super.onCreate();
 
-        DaggerAppComponent.builder().application(this).build().inject(this);
+        AppInjector.init(this);
     }
 
     @Override

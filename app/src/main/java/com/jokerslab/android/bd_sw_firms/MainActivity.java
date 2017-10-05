@@ -1,7 +1,5 @@
 package com.jokerslab.android.bd_sw_firms;
 
-import android.arch.lifecycle.ViewModelProvider;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -15,23 +13,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.jokerslab.android.bd_sw_firms.viewmodel.CompanyViewModel;
-
-import javax.inject.Inject;
-
-import dagger.android.AndroidInjection;
-
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-
-    @Inject
-    ViewModelProvider.Factory viewModelFactory;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        AndroidInjection.inject(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -62,16 +49,6 @@ public class MainActivity extends BaseActivity
         fragmentTransaction.commit();
 
 
-        CompanyViewModel viewModel = ViewModelProviders.of(this, viewModelFactory).get(CompanyViewModel.class);
-        viewModel.getCompanies().observe(this, result -> {
-            if (getCompanyListFragment() != null) {
-                getCompanyListFragment().setData(result);
-            }
-        });
-    }
-
-    public CompanyListFragment getCompanyListFragment() {
-        return (CompanyListFragment) getSupportFragmentManager().findFragmentByTag(CompanyListFragment.TAG);
     }
 
 
@@ -131,4 +108,6 @@ public class MainActivity extends BaseActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }
