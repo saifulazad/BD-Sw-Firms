@@ -21,4 +21,7 @@ public interface CompanyDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<Company> companies);
+
+    @Query("SELECT * FROM company WHERE id = :companyID")
+    LiveData<Company> getCompanyByID(String companyID);
 }

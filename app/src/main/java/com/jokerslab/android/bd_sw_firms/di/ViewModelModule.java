@@ -4,6 +4,7 @@ import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 
 
+import com.jokerslab.android.bd_sw_firms.viewmodel.CompanyDetailsViewModel;
 import com.jokerslab.android.bd_sw_firms.viewmodel.CompanyViewModel;
 import com.jokerslab.android.bd_sw_firms.viewmodel.ViewModelFactory;
 
@@ -21,6 +22,10 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(CompanyViewModel.class)
     abstract ViewModel bindUserViewModel(CompanyViewModel companyViewModel);
+    @Binds
+    @IntoMap
+    @ViewModelKey(CompanyDetailsViewModel.class)
+    abstract ViewModel bindCompanyDetailsViewModel(CompanyDetailsViewModel companyViewModel);
 
     @Binds
     abstract ViewModelProvider.Factory bindViewModelFactory(ViewModelFactory factory);

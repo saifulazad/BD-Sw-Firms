@@ -73,4 +73,8 @@ public class CompanyRepository {
 
         }.asLiveData();
     }
+
+    public LiveData<Company> getCompanyByID(String companyID) {
+        return companyDao.getCompanyByID(companyID);
+    }
 }

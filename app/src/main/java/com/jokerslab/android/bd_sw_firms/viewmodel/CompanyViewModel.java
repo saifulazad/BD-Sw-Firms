@@ -40,4 +40,8 @@ public class CompanyViewModel extends ViewModel {
     public void refresh() {
         refresh.setValue(true);
     }
+
+    public LiveData<Company> getCompanyByID(String companyID) {
+        return repository.getCompanyByID(companyID);
+    }
 }
