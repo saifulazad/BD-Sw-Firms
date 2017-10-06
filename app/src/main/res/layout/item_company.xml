@@ -1,14 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
-
+    <data>
+        <import type="com.jokerslab.android.bd_sw_firms.model.Company"/>
+        <variable
+            name="company"
+            type="Company"/>
+    </data>
     <LinearLayout
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <com.jokerslab.android.bd_sw_firms.AppTextView
-            android:layout_margin="16dp"
+
+            android:text="@{company.companyName}"
             android:textSize="20sp"
             android:id="@+id/companyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.jokerslab.android.bd_sw_firms.AppTextView
+            android:text="@{company.web}"
+            android:textSize="14sp"
+            android:id="@+id/website"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

@@ -1,11 +1,13 @@
 package com.jokerslab.android.bd_sw_firms;
 
 import android.content.Context;
+import android.databinding.DataBindingComponent;
 import android.databinding.DataBindingUtil;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.jokerslab.android.bd_sw_firms.binding.FragmentDataBindingComponent;
 import com.jokerslab.android.bd_sw_firms.databinding.ItemCompanyBinding;
 import com.jokerslab.android.bd_sw_firms.model.Company;
 
@@ -18,17 +20,22 @@ import java.util.List;
 
 public class CompanyListAdapter extends RecyclerView.Adapter<BaseViewHolder<Company>> {
 
+    private final DataBindingComponent dataBindingComponent;
+    private final ItemClickListener clickListener;
     private ArrayList<Company> companies;
     private LayoutInflater layoutInflater;
 
-    public CompanyListAdapter(Context context) {
+    public CompanyListAdapter(Context context, DataBindingComponent dataBindingComponent, ItemClickListener clickListener) {
         layoutInflater = LayoutInflater.from(context);
+        this.dataBindingComponent = dataBindingComponent;
+        this.clickListener = clickListener;
     }
 
     @Override
     public BaseViewHolder<Company> onCreateViewHolder(ViewGroup parent, int viewType) {
-        ItemCompanyBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_company, parent, false);
+        ItemCompanyBinding binding = DataBindingUtil.inflate(layoutInflater, R.layout.item_company, parent, false, dataBindingComponent);
         CompanyViewHolder viewHolder = new CompanyViewHolder(binding, 0);
+        viewHolder.setListener(clickListener);
         return viewHolder;
     }
 

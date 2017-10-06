@@ -43,14 +43,11 @@ public class MainActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        /*FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.container, new CompanyListFragment(), CompanyListFragment.TAG);
         fragmentTransaction.disallowAddToBackStack();
-        fragmentTransaction.commit();*/
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.container, CompanyDetailsFragment.newInstance("c62e6c4b-e93b-4092-b933-af561111bb12"), CompanyListFragment.TAG);
-        fragmentTransaction.disallowAddToBackStack();
         fragmentTransaction.commit();
+
 
 
     }

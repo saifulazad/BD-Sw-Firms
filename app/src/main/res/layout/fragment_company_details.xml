@@ -1,22 +1,73 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <import type="com.jokerslab.android.bd_sw_firms.model.Company"/>
+
+        <import type="com.jokerslab.android.bd_sw_firms.model.Company" />
+
+        <import type="com.jokerslab.android.bd_sw_firms.model.Technology" />
+
+        <import type="java.util.List" />
+
         <variable
             name="company"
-            type="Company"/>
+            type="Company" />
     </data>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
-        <TextView
-            android:text="@{company.companyName}"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.jokerslab.android.bd_sw_firms.AppTextView
             android:id="@+id/companyName"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:text="@{company.companyName}"
+            android:textSize="20sp" />
 
-    </FrameLayout>
+        <com.jokerslab.android.bd_sw_firms.AppTextView
+            android:id="@+id/website"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{company.web}"
+            android:textSize="14sp" />
+
+        <com.jokerslab.android.bd_sw_firms.AppTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/technologies"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <com.jokerslab.android.bd_sw_firms.AppTextView
+            android:id="@+id/technologies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            app:technologies="@{company.technologies}" />
+
+        <com.jokerslab.android.bd_sw_firms.AppTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/description"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <com.jokerslab.android.bd_sw_firms.AppTextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{company.businessDescription}"
+            android:textSize="16sp" />
+
+    </LinearLayout>
 
 </layout>
 
