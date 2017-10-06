@@ -50,18 +50,19 @@ public class CompanyRepository {
 
             @Override
             protected boolean shouldFetch(@Nullable List<Company> data) {
-                return data == null || data.isEmpty();
+                return data == null;
             }
 
             @NonNull
             @Override
-            protected LiveData<List<Company>> loadFromDB() {
-                LiveData<List<Company>> list = companyDao.getAll();
-                if (list == null || list.getValue() == null || list.getValue().isEmpty()) {
-                    return AbsentLiveData.create();
-                } else {
-                    return list;
-                }
+            protected LiveData<List<Company>> loadFromDb() {
+                return Transformations.switchMap(companyDao.getAll(), searchData -> {
+                    if (searchData == null || searchData.size() == 0) {
+                        return AbsentLiveData.create();
+                    } else {
+                        return companyDao.getAll();
+                    }
+                });
             }
 
             @NonNull

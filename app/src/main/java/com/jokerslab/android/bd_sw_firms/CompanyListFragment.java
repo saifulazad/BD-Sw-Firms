@@ -69,6 +69,8 @@ public class CompanyListFragment extends BaseFragment {
             binding.get().executePendingBindings();
         });
 
+        binding.get().setCallback(()-> viewModel.refresh());
+
     }
 
     public void setData(Resource<List<Company>> companies) {

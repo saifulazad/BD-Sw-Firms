@@ -15,8 +15,8 @@ import static com.jokerslab.android.bd_sw_firms.model.Status.SUCCESS;
 @Retention(RetentionPolicy.SOURCE)
 @IntDef({SUCCESS,LOADING,ERROR})
 public @interface Status {
-    int SUCCESS = 1;
-    int LOADING = 2;
-    int ERROR = 3;
+    public static int SUCCESS = 1;
+    public static int LOADING = 2;
+    public static int ERROR = 3;
 
 }

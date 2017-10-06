@@ -7,6 +7,7 @@
 
         <import type="com.jokerslab.android.bd_sw_firms.model.Resource" />
         <import type="com.jokerslab.android.bd_sw_firms.model.Status"/>
+        <import type="com.jokerslab.android.bd_sw_firms.model.Company"/>
 
         <variable
             name="companyListResource"
@@ -25,6 +26,8 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
+            tools:listitem="@layout/item_company"
+            app:layoutManager="LinearLayoutManager"
             android:id="@+id/companyListRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -32,7 +35,7 @@
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="@string/no_company_found"
             android:id="@+id/no_results_text"
-            app:visibleGone="@{companyListResource.status == Status.SUCCESS &amp;&amp; resultCount == 0}"
+            app:visibleGone="@{companyListResource.status == 1 &amp;&amp; resultCount == 0}"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

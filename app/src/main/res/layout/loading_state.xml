@@ -5,7 +5,6 @@
     <data>
 
         <import type="com.jokerslab.android.bd_sw_firms.model.Resource" />
-
         <import type="com.jokerslab.android.bd_sw_firms.model.Status" />
 
         <variable
@@ -31,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            app:visibleGone="@{resource.status == Status.SUCCESS}" />
+            app:visibleGone="@{resource.status == 2}" />
 
         <Button
             android:id="@+id/retry"
@@ -39,14 +38,14 @@
             android:layout_height="wrap_content"
             android:onClick="@{() -> callback.retry()}"
             android:text="@string/retry"
-            app:visibleGone="@{resource.status == Status.ERROR}" />
+            app:visibleGone="@{resource.status == 3}" />
 
         <TextView
             android:id="@+id/error_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{resource.message ?? @string/unknown_error}"
-            app:visibleGone="@{resource.status == Status.ERROR}" />
+            app:visibleGone="@{resource.status == 3}" />
     </LinearLayout>
 </layout>
 
